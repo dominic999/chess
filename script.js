@@ -190,66 +190,15 @@ window.onload = () => {
             mutari.push(mutare[0]);
             mutare[0].classList.add("mutarePosibila");
         }
-        }
+    }
+
+    function miscareNebun(){
+         
+    }
     
     
-    // toatePiesele.forEach((piesa) => {
-    //     piesa.addEventListener("click", () =>{
-    //         //! Deselectez piesa anterioare si o selectez pe cea curenta
-    //         var selectie = document.getElementsByClassName("selected");
-    //         if(selectie[0] != null){
-    //             selectie[0].classList.remove("selected");
-    //         }
-    //         var mutariPosibile = document.getElementsByClassName("mutarePosibila");
-    //         while(mutariPosibile.length > 0){
-    //             let cerc = document.getElementsByClassName("cerc");
-    //             // mutariPosibile[0].removeChild(cerc[0]);
-    //             mutariPosibile[0].classList.remove("mutarePosibila");
-    //         }
-    //         piesa.classList.add("selected");
-    //         let i = piesa.src.lastIndexOf("/");
-    //         let j = piesa.src.lastIndexOf(".");
-    //         var numePiesa = piesa.src.slice(i+1, j);
-    //         var pozitieActuala = Array.from(piesa.classList).slice(0, 2);
-    //         if(numePiesa[0] == "p"){
-    //             let pionNou = new Piesa(numePiesa[0], numePiesa[1].toLowerCase(), pozitieActuala);
-    //             miscarePion(pionNou);
-    //         }
-    //         var parinte = document.getElementsByClassName(pozitieActuala.join(" "))[0];
-    //         console.log(parinte);
-    //         afisareMutariPosibile();
-    //         listaMutari = document.querySelectorAll(".mutarePosibila");
-    //         //!Aici vom face functia pentru a muta o piesa efectiv
-    //         listaMutari.forEach((mutare) => {
-    //             mutare.addEventListener("click", (e)=>{
-    //                 let pozActuala = Array.from(e.target.parentElement.classList);
-    //                 pozActuala = pozActuala.slice(0,2);
-    //                 //?O sa scoatem piesa de pe pozitia ei actual si o punem la pozitia curenta
-    //                 let cerc = document.querySelectorAll(".cerc");
-    //                 //!Aici scot toate cercurile
-    //                 cerc.forEach((cercut)=> {
-    //                     let parinte = cercut.parentElement;
-    //                     parinte.removeChild(cercut);
-    //                 })
-    //                 //!Aici scot piesa de pe pozitia actuala si o mut pe cea noua
-    //                 mutare.appendChild(piesa);
-    //                 parinte.removeChild(piesa);
-    //                 piesa.classList.remove("selected");
-    //                 piesa.classList.remove(pozitieActuala[0]);
-    //                 piesa.classList.remove(pozitieActuala[1]);
-    //                 piesa.classList.add(pozActuala[0]);
-    //                 piesa.classList.add(pozActuala[1]);
-    //             })
-    //         })
-    //     })
-    // })
-     
-    // let piesa_selectata = document.getElementsByClassName("selected");
-    // piesa_selectata.forEach(piesa => {
-        // piesa.addEventListener("click", () => {
-        //     console.log("mergre");
-        // })
-    //}) 
+    //! Trebuie sa tin cont de randul jucatorului
+    var rand = 0;
     let toatePiesele = document.querySelectorAll("div img");
     var listaMutari;
     toatePiesele.forEach(piesa => {
@@ -263,13 +212,25 @@ window.onload = () => {
             if(piesaSelectata != null){
                 piesaSelectata.removeAttribute("id");
             }
-            piesa.id = "selected";
-            var pozitieActuala = Array.from(parinte.classList).slice(0, 2);
-            console.log("poz" + pozitieActuala);
-            var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
-            if(nume[0] == "p"){
-                console.log("pion");
-                miscarePion(piesaActuala);
+            if(rand % 2 == 0 && nume[1] == "A"){
+                piesa.id = "selected";
+                var pozitieActuala = Array.from(parinte.classList).slice(0, 2);
+                console.log("poz" + pozitieActuala);
+                var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
+                if(nume[0] == "p"){
+                    console.log("pion");
+                    miscarePion(piesaActuala);
+                }
+            }
+            if(rand % 2 == 1 && nume[1] == "N"){
+                piesa.id = "selected";
+                var pozitieActuala = Array.from(parinte.classList).slice(0, 2);
+                console.log("poz" + pozitieActuala);
+                var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
+                if(nume[0] == "p"){
+                    console.log("pion");
+                    miscarePion(piesaActuala);
+                }
             }
             afisareMutariPosibile();
         })
@@ -283,7 +244,7 @@ window.onload = () => {
                 e.target.parentElement.appendChild(piesa);
                 removeMutariAnterioare();
                 let misc = document.getElementsByClassName("miscarePosibilla");
-                console.log(misc);
+                rand++;
             }
 
         })
