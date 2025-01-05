@@ -43,14 +43,19 @@ body{
 
 
 #selected{
-    background-color: red;
+    background-color: #a85a32;
+    border-radius: 100%;
 }
 
 .cerc{
     height: 3vw;
     width: 3vw;
-    background-color: red;
+    background-color: #a85a32;
     border-radius: 100%;
+}
+
+.cap{
+    background-color: #99bdbf;
 }
 
 @media (min-width: 900px) {

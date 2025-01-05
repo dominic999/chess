@@ -166,10 +166,16 @@ window.onload = () => {
             mutari[0].removeChild(copii[0]);
             mutari[0].classList.remove("mutarePosibila");
         }
+        var capturari = document.getElementsByClassName("capture");
+        while(capturari.length > 0){
+            capturari[0].classList.remove("capture");
+        }
+
     }
 
     //?Pozitia va fi lista de clase html a piesei, de forma A 9
     function miscarePion(piesa){
+        
         //? Dacac pionul este alb vom lasa cul = 1, daca nu fa vi -1
         var cul = 1;
         if(piesa.culoare ==  "n"){
@@ -181,14 +187,41 @@ window.onload = () => {
         var coloana = pozitie[0];
         let patrat = coloana.concat(" ").concat((rand+cul).toString());
         let mutare = document.getElementsByClassName(patrat);
+        console.log(patrat);
         mutari.push(mutare[0]);
-        mutare[0].classList.add("mutarePosibila");
+        //?Aici trebuie sa verificam daca are ceva in fata
+        if (mutare[0].childNodes.length == 0){
+            mutare[0].classList.add("mutarePosibila");
+        }
         //?Aici ferific daca a facut deja o miscare sau nu
         if(rand == 2 || rand == 7){
             let patrat = coloana.concat(" ").concat((rand+2*cul).toString());
             let mutare = document.getElementsByClassName(patrat);
             mutari.push(mutare[0]);
-            mutare[0].classList.add("mutarePosibila");
+            //?Aici se verifica daca este ceva deja pe acel patrtat
+            if (mutare[0].childNodes.length == 0){
+                mutare[0].classList.add("mutarePosibila");
+            }
+        }
+        //?Aici se va verifica daca este ceva de capturat
+        var capturare = new Array();
+        let colNumar = coloana.charCodeAt(0);
+        colNumar++;
+        colNumar = String.fromCharCode(colNumar);
+        capturare[0] = colNumar.concat(" ").concat((rand+cul).toString());
+        colNumar = coloana.charCodeAt(0);
+        colNumar--;
+        colNumar = String.fromCharCode(colNumar);
+        capturare[1] = colNumar.concat(" ").concat((rand+cul).toString());
+        var index = 0;
+        while(index < capturare.length){
+            if(capturare[index][0] > "A" && capturare[index][0] < "I"){
+                let patratActual = document.getElementsByClassName(capturare[index])
+                if(patratActual[0].childNodes.length != 0){
+                    patratActual[0].classList.add("capture");
+                }
+            }
+            index++;
         }
     }
 
@@ -215,20 +248,16 @@ window.onload = () => {
             if(rand % 2 == 0 && nume[1] == "A"){
                 piesa.id = "selected";
                 var pozitieActuala = Array.from(parinte.classList).slice(0, 2);
-                console.log("poz" + pozitieActuala);
                 var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
                 if(nume[0] == "p"){
-                    console.log("pion");
                     miscarePion(piesaActuala);
                 }
             }
             if(rand % 2 == 1 && nume[1] == "N"){
                 piesa.id = "selected";
                 var pozitieActuala = Array.from(parinte.classList).slice(0, 2);
-                console.log("poz" + pozitieActuala);
                 var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
                 if(nume[0] == "p"){
-                    console.log("pion");
                     miscarePion(piesaActuala);
                 }
             }
@@ -240,10 +269,18 @@ window.onload = () => {
         element.addEventListener("click", e => {
             if(e.target.classList.contains("cerc")){
                 var piesa = document.getElementById("selected");
-                console.log(e.target.parentElement.childNodes);
                 e.target.parentElement.appendChild(piesa);
                 removeMutariAnterioare();
-                let misc = document.getElementsByClassName("miscarePosibilla");
+                rand++;
+            }
+            if(e.currentTarget.classList.contains("capture")){
+                console.log(e.target);
+                var piesa = document.getElementById("selected");
+                var piesaCapturata = e.target.childNodes[0];
+                e.target.removeChild(piesaCapturata);
+                e.target.appendChild(piesa);
+                e.target.classList.remove("capture");
+                removeMutariAnterioare();
                 rand++;
             }
 
