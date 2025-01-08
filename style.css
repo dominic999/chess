@@ -55,7 +55,7 @@ body{
 }
 
 .cap{
-    background-color: #99bdbf;
+    background-color: #99bdbf !important;
 }
 
 @media (min-width: 900px) {

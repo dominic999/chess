@@ -194,7 +194,7 @@ window.onload = () => {
             mutare[0].classList.add("mutarePosibila");
         }
         //?Aici ferific daca a facut deja o miscare sau nu
-        if(rand == 2 || rand == 7){
+        if((rand == 2 && piesa.culoare == "a") || (rand == 7 && piesa.culoare == "n")){
             let patrat = coloana.concat(" ").concat((rand+2*cul).toString());
             let mutare = document.getElementsByClassName(patrat);
             mutari.push(mutare[0]);
@@ -225,8 +225,29 @@ window.onload = () => {
         }
     }
 
-    function miscareNebun(){
+    function miscareNebun(piesa){
          
+        var cul = 1;
+        var pozitie = piesa.pozitie;
+        var rand = parseInt(pozitie[1]);
+        var coloana = pozitie[0];
+        coloana = String.fromCharCode(coloana.charCodeAt(0) + 1);
+        let patrat = coloana.concat(" ").concat((rand+cul).toString());
+        let mutare = document.getElementsByClassName(patrat);
+        var mutari = new Array();
+
+
+        //?Diagonala spre stanga sus
+        while (rand < 9 && coloana >= "A" && mutare[0].childNodes.length == 0){
+            rand++;
+            coloana = String.fromCharCode(coloana.charCodeAt(0) + 1);
+            let patrat = coloana.concat(" ").concat((rand).toString());
+            let mutare = document.getElementsByClassName(patrat);
+            mutare[0].classList.add("mutarePosibila");
+        }
+        
+        
+
     }
     
     
@@ -252,6 +273,9 @@ window.onload = () => {
                 if(nume[0] == "p"){
                     miscarePion(piesaActuala);
                 }
+                if(nume[0] == "n"){
+                    miscareNebun(piesaActuala);
+                }
             }
             if(rand % 2 == 1 && nume[1] == "N"){
                 piesa.id = "selected";
@@ -259,6 +283,9 @@ window.onload = () => {
                 var piesaActuala = new Piesa(nume[0], nume[1].toLowerCase(), pozitieActuala);
                 if(nume[0] == "p"){
                     miscarePion(piesaActuala);
+                }
+                if(nume[0] == "n"){
+                    miscareNebun(piesaActuala);
                 }
             }
             afisareMutariPosibile();
